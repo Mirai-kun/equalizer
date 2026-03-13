@@ -1,0 +1,24 @@
+{
+   "action": {
+   },
+   "background": {
+      "service_worker": "background.js"
+   },
+   "content_security_policy": {
+      "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+   },
+   "description": "Equalizer extension for web browsers",
+   "host_permissions": [  ],
+   "icons": {
+      "128": "icons/just-eq-128.png",
+      "16": "icons/just-eq-16.png",
+      "32": "icons/just-eq-32.png",
+      "48": "icons/just-eq-48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiYflF5ycjbq0DGWCwRcWT84ijJsFbmF4ruoEnWu75C8XEc7GIM7PxAFi7EMPiS69wWRM36FO13im8gtb5fflWR0V+4CUD4vCTtTBTPMIbya4GFJ5YWmpFio5BvohDSWIKIwWqe71CCisPJdz3tQOVbuZaNKAKdy6XakI2N4bXYBw+17yK5WLioAj1nGjq1KgocTbIpbT5/Bk+IM5VWBwFX1SvWV553WXhM7OlbW9fkCDTV3EIGaIwlA6m2aZdhEOCqvJARQ5XGi336oN696WpDKTdcoY2uMX+Gr65lWxDIle9LvTq9DpQf8OG4A82co/Syzxm0DPm0AFpPbgiH6yWQIDAQAB",
+   "manifest_version": 3,
+   "name": "Just-EQ",
+   "permissions": [ "tabCapture", "tabs", "storage" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.0.1"
+}

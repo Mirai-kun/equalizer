@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Zen+Dots"
+    />
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+
+  <body>
+    <div id="main-display">
+      <!-- Header -------------------------------------------------------------->
+      <header>Just-EQ</header>
+      <!-- Analyser Display ---------------------------------------------------->
+      <div id="analyser">
+        <svg class="analyser-layer" id="analyser-svg">
+          <rect width="100%" height="100%" id="background" fill="black"></rect>
+
+          <path id="axis-lines" stroke="white" stroke-opacity="0.3"></path>
+
+          <path id="pre-filter" fill-opacity="0.2" stroke-opacity="0.2"></path>
+
+          <path id="post-filter" fill-opacity="0.3" stroke-opacity="0.6"></path>
+
+          <path id="max-peak" fill="none"></path>
+
+          <path id="filter-axis-lines"></path>
+
+          <text id="hover-frequency" fill="white" text-anchor="middle"></text>
+
+          <g id="filter-curves" fill="none" stroke-opacity="0.8">
+            <path class="filter-curve"></path>
+            <path class="filter-curve"></path>
+            <path class="filter-curve"></path>
+            <path class="filter-curve"></path>
+            <path class="filter-curve"></path>
+          </g>
+
+          <path id="filter-sum-curve" fill="none" stroke-width="1.5"></path>
+
+          <text id="filter-axis-text"></text>
+
+          <text id="axis-text" fill="white"></text>
+
+          <rect
+            width="100%"
+            height="100%"
+            id="unselect-filter"
+            fill="transparent"
+          ></rect>
+
+          <g id="filter-circles-group">
+            <g id="filter-circle-highlight-group" fill="white" stroke="black">
+              <circle></circle>
+              <circle></circle>
+              <circle></circle>
+              <circle></circle>
+              <circle></circle>
+            </g>
+            <g id="filter-circle-group" stroke="black">
+              <circle></circle>
+              <circle></circle>
+              <circle></circle>
+              <circle></circle>
+              <circle></circle>
+            </g>
+          </g>
+
+          <g id="filter-circle-texts" fill="white" text-anchor="middle">
+            <text class="filter-circle-text">1</text>
+            <text class="filter-circle-text">2</text>
+            <text class="filter-circle-text">3</text>
+            <text class="filter-circle-text">4</text>
+            <text class="filter-circle-text">5</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Footer -------------------------------------------------------------->
+      <footer id="settings">
+        <div
+          class="setting"
+          id="channel-mode-setting"
+          style="display: flex; gap: 5px; margin-bottom: 10px"
+        >
+          <button type="button" id="ch-left" class="flex-grow">KIRI (L)</button>
+          <button type="button" id="ch-link" class="flex-grow">
+            LINK (L+R)
+          </button>
+          <button type="button" id="ch-right" class="flex-grow">
+            KANAN (R)
+          </button>
+        </div>
+        <!-- Filter Settings ------------------------------------------------->
+        <div class="setting" id="active-filter-setting">
+          <button type="button" id="filter-previous" class="flex-grow">
+            🡸
+          </button>
+          <div class="setting-title">
+            <label for="filter-number">
+              Filter
+              <output name="filter-number"></output>
+              Settings
+            </label>
+          </div>
+          <div class="flex-column">
+            <label for="filter-type">Type</label>
+            <select name="filter-type" class="flex-grow" title="">
+              <option value="lowpass">Low-Pass</option>
+              <option value="highpass">High-Pass</option>
+              <option value="bandpass">Band-Pass</option>
+              <option value="lowshelf">Low-Shelf</option>
+              <option value="highshelf">High-Shelf</option>
+              <option value="peaking">Peak</option>
+              <option value="notch">Notch</option>
+            </select>
+          </div>
+          <div class="flex-column">
+            <label for="filter-frequency">Frequency (Hz)</label>
+            <input
+              type="number"
+              name="filter-frequency"
+              step="1"
+              value=""
+              title=""
+            />
+          </div>
+          <div class="flex-column">
+            <label for="filter-q">Q</label>
+            <input
+              type="number"
+              name="filter-q"
+              step="0.0001"
+              value=""
+              title=""
+            />
+          </div>
+          <div class="flex-column">
+            <label for="filter-gain">Gain (dB)</label>
+            <input
+              type="number"
+              name="filter-gain"
+              step="0.1"
+              value=""
+              title=""
+            />
+          </div>
+          <div class="flex-column">
+            <button type="button" class="flex-grow" id="filter-bypass">
+              Bypass Filter
+            </button>
+          </div>
+          <div class="flex-column">
+            <button type="button" class="flex-grow" id="filter-reset">
+              Reset Filter
+            </button>
+          </div>
+          <button type="button" class="flex-grow" id="filter-next">🡺</button>
+        </div>
+
+        <!-- Active Filter Settings ------------------------------------------->
+        <div class="setting" id="select-filter-setting">
+          <button type="button" id="filter-1" class="flex-grow">
+            Filter 1
+          </button>
+          <button type="button" id="filter-2" class="flex-grow">
+            Filter 2
+          </button>
+          <button type="button" id="filter-3" class="flex-grow">
+            Filter 3
+          </button>
+          <button type="button" id="filter-4" class="flex-grow">
+            Filter 4
+          </button>
+          <button type="button" id="filter-5" class="flex-grow">
+            Filter 5
+          </button>
+        </div>
+
+        <!-- Analyser Settings ------------------------------------------------>
+        <div class="setting">
+          <div class="setting-title">
+            Analyser Settings
+            <div>
+              <label for="sample-rate">Sample Rate:</label>
+              <output name="sample-rate"></output>
+            </div>
+            <div>
+              <label for="bin-resolution">Bin Resolution:</label>
+              <output name="bin-resolution"></output>
+            </div>
+          </div>
+          <div class="flex-column">
+            <label for="decibel-gain-range">Filter Gain Range</label>
+            <select name="decibel-gain-range" class="flex-grow" title="">
+              <option value="10">10 dB</option>
+              <option value="20" selected>20 dB</option>
+              <option value="40">40 dB</option>
+            </select>
+          </div>
+          <div class="flex-column">
+            <label for="fft-size">FFT Size</label>
+            <select name="fft-size" class="flex-grow" title="">
+              <option value="1024">1024 Bins</option>
+              <option value="2048">2048 Bins</option>
+              <option value="4096">4096 Bins</option>
+              <option value="8192" selected>8192 Bins</option>
+              <option value="16384">16384 Bins</option>
+              <option value="32768">32768 Bins</option>
+            </select>
+          </div>
+          <div class="flex-column">
+            <label for="frequency-scale">Frequency Scale</label>
+            <select name="frequency-scale" class="flex-grow" title="">
+              <option value="linear">Linear</option>
+              <option value="log" selected>Log</option>
+            </select>
+          </div>
+          <div class="flex-column">
+            <label for="decibel-range">Decibel Range</label>
+            <select name="decibel-range" class="flex-grow" title="">
+              <option value="60">60 dB</option>
+              <option value="90" selected>90 dB</option>
+              <option value="120">120 dB</option>
+            </select>
+          </div>
+          <div class="flex-column">
+            <label for="smoothing-time-constant">Smoothing Time Constant</label>
+            <input
+              type="number"
+              class="flex-grow"
+              name="smoothing-time-constant"
+              max="1"
+              min="0"
+              step="0.01"
+              value="0.80"
+              title="Set value to 1 to pause analyser."
+            />
+          </div>
+        </div>
+
+        <!-- Main Settings --------------------------------------------------->
+        <div class="setting">
+          <button type="button" id="toggle-pre-analyser" class="flex-grow">
+            Pre-Analyser
+          </button>
+          <button type="button" id="toggle-post-analyser" class="flex-grow">
+            Post-Analyser
+          </button>
+          <button type="button" id="toggle-max-peak" class="flex-grow">
+            Max-Peak
+          </button>
+          <button type="button" id="toggle-pause" class="flex-grow">
+            Pause
+          </button>
+          <button type="button" id="toggle-all-bypass" class="flex-grow">
+            All Bypass
+          </button>
+          <button type="button" id="reset-filters" class="flex-grow">
+            All Reset
+          </button>
+          <button type="button" id="open-support-donation" class="flex-grow">
+            Support/Donation
+          </button>
+          <!-- <button type="button">Add Filter</button>
+            <button type="button">Undo</button>
+            <button type="button">Redo</button>
+            <button type="button">Load Settings</button>
+            <button type="button">Save Settings</button> -->
+        </div>
+      </footer>
+    </div>
+
+    <!-- Support / Donation -------------------------------------------------->
+    <div id="support-donation">
+      <div>Donation:</div>
+      <button id="stripe">Stripe</button>
+      <button id="liberapay">Liberapay</button>
+      <button id="cashapp">CashApp</button>
+      <hr />
+      <button id="google-group">Google Group (Support/Comments)</button>
+      <hr />
+      <button id="close-support-donation">Close</button>
+    </div>
+
+    <script type="module" src="./popup.js"></script>
+  </body>
+</html>
